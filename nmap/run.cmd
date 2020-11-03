@@ -1,1 +1,1 @@
-@docker run -it dcjulian29/nmap  %*
+@docker run -it dcjulian29/nmap %*
