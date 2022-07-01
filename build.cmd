@@ -1,8 +1,14 @@
 @echo off
 setlocal
-set VERSION=7.91.1
 
-docker build --pull --no-cache --progress plain -t dcjulian29/nmap:%VERSION% .
-docker tag dcjulian29/nmap:%VERSION% dcjulian29/nmap:latest
+pushd %~dp0
 
-docker push dcjulian29/nmap --all-tags
+for /f "delims=" %%x in (version) do set VERSION=%%x
+
+docker build --progress plain -t dcjulian29/nmap:%VERSION% .
+
+if %errorlevel% neq 0 popd;exit /b %errorlevel%
+
+popd
+
+docker tag dcjulian29/nmap:%VERSION%  dcjulian29/nmap:latest
