@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Dockerfile'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'Dockerfile'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Grab the version to use.
+        id: vars
+        run: echo "::set-output name=version::$(cat VERSION)"
+
+      - name: Build the Docker Image.
+        run: docker build --progress plain --tag dcjulian29/nmap:${{ steps.vars.outputs.version }}-ci:$(date +%s) .
