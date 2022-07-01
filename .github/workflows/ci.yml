@@ -10,6 +10,7 @@ on:
     paths:
       - 'Dockerfile'
       - 'VERSION'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,4 +24,4 @@ jobs:
         run: echo "::set-output name=version::$(cat VERSION)"
 
       - name: Build the Docker Image.
-        run: docker build --progress plain --tag dcjulian29/nmap:${{ steps.vars.outputs.version }}-ci:$(date +%s) .
+        run: docker build --progress plain --tag dcjulian29/nmap:${{ steps.vars.outputs.version }}-ci$(date +%s) .
