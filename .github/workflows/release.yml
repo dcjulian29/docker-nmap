@@ -22,10 +22,14 @@ jobs:
         id: vars
         run: echo "::set-output name=version::$(echo ${GITHUB_REF:10})"
 
+      - name: Grab the source code version to use.
+        id: var1
+        run: echo "::set-output name=version::$(cat VERSION)"
+
       - name: Build and push Docker image.
         uses: docker/build-push-action@v3
         with:
           build-args: |
-            VERSION=${{ steps.vars.outputs.version }}
+            VERSION=${{ steps.var1.outputs.version }}
           push: true
           tags: dcjulian29/nmap:${{ steps.vars.outputs.version }},dcjulian29/nmap:latest
