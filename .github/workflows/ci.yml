@@ -5,11 +5,14 @@ on:
     branches: [ "main" ]
     paths:
       - 'Dockerfile'
+      - 'VERSION'
+      - 'REVISION'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'Dockerfile'
       - 'VERSION'
+      - 'REVISION'
   workflow_dispatch:
 
 jobs:
@@ -20,8 +23,17 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Grab the version to use.
-        id: vars
+        id: var1
         run: echo "::set-output name=version::$(cat VERSION)"
 
-      - name: Build the Docker Image.
-        run: docker build --progress plain --tag dcjulian29/nmap:${{ steps.vars.outputs.version }}-ci$(date +%s) .
+      - name: Grab the revision to use.
+        id: var2
+        run: echo "::set-output name=revision::$(cat REVISION)"
+
+      - name: Build Docker image.
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            VERSION=${{ steps.var1.outputs.version }}
+          push: false
+          tags: dcjulian29/nmap:${{ steps.var1.outputs.version }}.${{ steps.var2.outputs.revision }}-${{ env.GITHUB_SHA }}
