@@ -24,11 +24,11 @@ jobs:
 
       - name: Grab the version to use.
         id: var1
-        run: echo "::set-output name=version::$(cat VERSION)"
+        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
       - name: Grab the revision to use.
         id: var2
-        run: echo "::set-output name=revision::$(cat REVISION)"
+        run: echo "revision=$(cat REVISION)"
 
       - name: Build Docker image.
         uses: docker/build-push-action@v3
