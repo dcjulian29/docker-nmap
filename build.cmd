@@ -4,12 +4,17 @@ setlocal
 pushd %~dp0
 
 for /f "delims=" %%x in (VERSION) do set VERSION=%%x
-for /f "delims=" %%x in (REVISION) do set REVISION=%%x
 
-docker build --progress plain --build-arg VERSION=%VERSION% -t dcjulian29/nmap:%VERSION%.%REVISION% .
+docker build --build-arg VERSION=%VERSION% -t dcjulian29/nmap:%VERSION% .
 
-if %errorlevel% neq 0 popd;exit /b %errorlevel%
+if %errorlevel% neq 0 GOTO FINAL
+
+docker tag dcjulian29/nmap:%VERSION% dcjulian29/nmap:latest
+
+:FINAL
+
+goreleaser --snapshot --skip-publish --clean
 
 popd
 
-docker tag dcjulian29/nmap:%VERSION%.%REVISION%  dcjulian29/nmap:latest
+endlocal
