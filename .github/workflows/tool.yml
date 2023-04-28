@@ -21,9 +21,14 @@ jobs:
           cache-dependency-path: ${{ github.workspace }}/go.sum
           go-version-file: ${{ github.workspace }}/go.mod
 
+      - name: Grab the version to use.
+        id: vars
+        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
+
       - uses: goreleaser/goreleaser-action@v4
         with:
           args: release
         env:
           GITHUB_TOKEN: ${{ github.token }}
           CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
+          VERSION: ${{ steps.vars.outputs.version }}
