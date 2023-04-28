@@ -1,0 +1,45 @@
+---
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - binary: nmap
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - windows
+    goarch:
+      - amd64
+    ldflags: -s -w -X main.imageVersion={{ if index .Env "VERSION" }}{{ .Env.VERSION }}{{ else }}latest{{ end }}
+archives:
+  - format: zip
+    files:
+      - LICENSE
+    builds_info:
+      group: root
+      owner: root
+      mode: 0755
+    name_template: "dcjulian29.apps.nmap-via-docker_{{ .Version }}"
+chocolateys:
+  - name: dcjulian29.apps.nmap-via-docker
+    authors: Julian Easterling <julian@julianscorner.com>
+    project_url: https://github.com/dcjulian29/docker-nmap/
+    copyright: 2023 Julian Easterling julian@julianscorner.com
+    license_url: https://github.com/dcjulian29/docker-nmap/blob/main/LICENSE
+    require_license_acceptance: false
+    bug_tracker_url: https://github.com/dcjulian29/docker-nmap/issues
+    description: |
+      nmap-via-docker allows the execution of nmap via a Docker container.
+    dependencies:
+      - id: docker-desktop
+    api_key: "{{ .Env.CHOCO_API_KEY }}"
+    source_repo: "https://www.myget.org/F/dcjulian29-chocolatey/"
+    skip_publish: false
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
