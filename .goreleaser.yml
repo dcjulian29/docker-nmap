@@ -10,7 +10,7 @@ builds:
       - windows
     goarch:
       - amd64
-    ldflags: -s -w -X main.imageVersion={{ if index .Env "VERSION" }}{{ .Env.VERSION }}{{ else }}latest{{ end }}
+    ldflags: -s -w -X main.imageVersion={{ if index .Env "IMAGE_VERSION" }}{{ .Env.IMAGE_VERSION }}{{ else }}latest{{ end }}
 archives:
   - format: zip
     files:
