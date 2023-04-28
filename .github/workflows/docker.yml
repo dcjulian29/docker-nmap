@@ -5,13 +5,11 @@ on:
   push:
     paths:
       - Dockerfile
-      - REVISION
       - VERSION
 
   pull_request:
     paths:
       - Dockerfile
-      - REVISION
       - VERSION
 
   workflow_dispatch:
