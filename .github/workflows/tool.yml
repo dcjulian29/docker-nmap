@@ -25,10 +25,11 @@ jobs:
         id: vars
         run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
-      - uses: goreleaser/goreleaser-action@v4
-        with:
-          args: release
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
-          IMAGE_VERSION: ${{ steps.vars.outputs.version }}
+      - run: echo "${{ steps.vars.outputs.version }}"
+      # - uses: goreleaser/goreleaser-action@v4
+      #   with:
+      #     args: release
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #     CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
+      #     IMAGE_VERSION: ${{ steps.vars.outputs.version }}
