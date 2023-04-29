@@ -21,15 +21,13 @@ jobs:
           cache-dependency-path: ${{ github.workspace }}/go.sum
           go-version-file: ${{ github.workspace }}/go.mod
 
-      - run: |
-          $version = Get-Content ${{ github.workspace }}/VERSION
-          Write-Host "Image Version: $version"
-          echo "IMAGE_VERSION=$version" >> $GITHUB_ENV
+      - id: vars
+        run: echo "version=${{ steps.vars.outputs.version }}" >> $GITHUB_OUTPUT
       # - name: Grab the version to use.
       #   id: vars
       #   run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
-      - run: echo "${{ env.IMAGE_VERSION }}"
+      - run: echo "${{ steps.vars.outputs.version }}"
       # - uses: goreleaser/goreleaser-action@v4
       #   with:
       #     args: release
