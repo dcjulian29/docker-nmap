@@ -22,7 +22,10 @@ jobs:
           go-version-file: ${{ github.workspace }}/go.mod
 
       - id: vars
-        run: Write-Host "version=$(Get-Content ${{ github.workspace }}\VERSION)" >> $GITHUB_OUTPUT
+        run: |
+          Write-Output "version=$(Get-Content ${{ github.workspace }}\VERSION)" `
+            | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding UTF8 -Append
+
       # - name: Grab the version to use.
       #   id: vars
       #   run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
