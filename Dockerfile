@@ -9,7 +9,7 @@ RUN apk add --update --no-cache libpcap libgcc libstdc++ libretls \
   && cd nmap-${VERSION} \
   && apk add --update --no-cache --virtual .build-deps \
        libpcap-dev libretls-dev lua-dev linux-headers \
-       autoconf g++ libtool make \
+       autoconf g++ libtool make automake \
   && ./configure \
        --prefix=/usr \
        --sysconfdir=/etc \
