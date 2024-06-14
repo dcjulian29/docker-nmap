@@ -19,6 +19,8 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"strings"
 )
 
 var imageVersion string
@@ -29,18 +31,20 @@ func main() {
 		"run",
 		"--rm",
 		"-it",
-		fmt.Sprintf("dcjulian29/nmap:%s", imageVersion),
+		"--entrypoint",
 	}
 
-	if len(args) > 0 {
-		docker = append(docker, args...)
-	}
+	docker = append(docker, strings.ReplaceAll(filepath.Base(os.Args[0]), ".exe", ""))
+
+	docker = append(docker, fmt.Sprintf("dcjulian29/nmap:%s", imageVersion))
 
 	if len(args) > 0 {
 		if args[0] == "--image-version" {
 			fmt.Println(imageVersion)
 			os.Exit(0)
 		}
+
+		docker = append(docker, args...)
 	}
 
 	cmd := exec.Command("docker", docker...)

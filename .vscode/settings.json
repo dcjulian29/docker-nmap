@@ -6,6 +6,7 @@
     "goarch",
     "ldflags",
     "nmap",
+    "nping",
     "scanme"
   ]
 }
