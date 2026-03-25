@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 Julian Easterling julian@julianscorner.com
+Copyright © 2026 Julian Easterling julian@julianscorner.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,49 +13,42 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package main
 
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/dcjulian29/go-toolbox/docker"
+	"github.com/dcjulian29/go-toolbox/filesystem"
+	"github.com/dcjulian29/go-toolbox/textformat"
 )
 
 var imageVersion string
 
 func main() {
-	args := os.Args[1:]
-	docker := []string{
-		"run",
-		"--rm",
-		"-it",
-		"--entrypoint",
-	}
+	args := filesystem.EnsureUnixPathArguments()
 
-	docker = append(docker, strings.ReplaceAll(filepath.Base(os.Args[0]), ".exe", ""))
-
-	docker = append(docker, fmt.Sprintf("dcjulian29/nmap:%s", imageVersion))
-
-	if len(args) > 0 {
+	if len(args) == 1 {
 		if args[0] == "--image-version" {
 			fmt.Println(imageVersion)
 			os.Exit(0)
 		}
-
-		docker = append(docker, args...)
 	}
 
-	cmd := exec.Command("docker", docker...)
-	cmd.Stderr = os.Stderr
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
+	opts := docker.ContainerOptions{
+		AdditionalArgs: strings.Join(args, " "),
+		EntryPoint:     filepath.Clean(strings.ReplaceAll(filepath.Base(os.Args[0]), ".exe", "")),
+		Image:          "dcjulian29/nmap",
+		Interactive:    true,
+		Tag:            imageVersion,
+	}
 
-	if err := cmd.Run(); err != nil {
-		fmt.Printf("\033[1;31m%s\033[0m\n", err)
+	if _, err := docker.Run(opts); err != nil {
+		fmt.Println(textformat.Fatal(err.Error()))
 		os.Exit(1)
 	}
-
-	os.Exit(0)
 }
