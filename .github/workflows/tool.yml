@@ -18,7 +18,7 @@ name: NMap Tool
 
 jobs:
   build:
-    name: Build Tool
+    if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
     runs-on: windows-2022
 
     steps:
@@ -41,9 +41,9 @@ jobs:
 
   release:
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
-    name: Release Tool
-    needs: [build]
     runs-on: windows-2022
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v6

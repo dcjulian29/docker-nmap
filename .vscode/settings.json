@@ -5,8 +5,17 @@
     "dcjulian",
     "goarch",
     "ldflags",
+    "liblua",
+    "libpcap",
+    "libpcre",
+    "libretls",
+    "libstdc",
     "nmap",
     "nping",
-    "scanme"
+    "pcre",
+    "popd",
+    "pushd",
+    "scanme",
+    "sysconfdir"
   ]
 }
