@@ -7,6 +7,11 @@ updates:
       interval: "daily"
     rebase-strategy: "auto"
 
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
