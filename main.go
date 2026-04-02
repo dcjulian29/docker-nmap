@@ -40,7 +40,7 @@ func main() {
 	}
 
 	opts := docker.ContainerOptions{
-		AdditionalArgs: strings.Join(args, " "),
+		AdditionalArgs: args,
 		EntryPoint:     filepath.Clean(strings.ReplaceAll(filepath.Base(os.Args[0]), ".exe", "")),
 		Image:          "dcjulian29/nmap",
 		Interactive:    true,
