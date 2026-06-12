@@ -35,9 +35,9 @@ archives:
     name_template: "dcjulian29.apps.nmap-via-docker_{{ .Version }}"
 chocolateys:
   - name: dcjulian29.apps.nmap-via-docker
-    authors: Julian Easterling <julian@julianscorner.com>
+    authors: Julian Easterling
     project_url: https://github.com/dcjulian29/docker-nmap/
-    copyright: 2023 Julian Easterling julian@julianscorner.com
+    copyright: 2026 Julian Easterling
     license_url: https://github.com/dcjulian29/docker-nmap/blob/main/LICENSE
     require_license_acceptance: false
     bug_tracker_url: https://github.com/dcjulian29/docker-nmap/issues
